@@ -12,7 +12,6 @@ require "rails_helper"
 
 RSpec.describe "Api::V1::Current::Users", type: :request do
   describe "GET api/v1/current/user" do
-
     # subject { get(api_v1_current_user_path, headers: headers) }
     #  下記と同じ結果となる
     subject { get(api_v1_current_user_path, headers:) }
@@ -25,7 +24,7 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
       it "正常にレコードを取得できる" do
         subject
         res = JSON.parse(response.body)
-        binding.pry
+        # binding.pry
         expect(res.keys).to eq ["id", "name", "email"]
         expect(response).to have_http_status(:ok)
       end
@@ -37,7 +36,7 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
       it "unauthorized エラーが返る" do
         subject
         res = JSON.parse(response.body)
-        binding.pry
+        # binding.pry
         expect(res["errors"]).to eq ["ログインもしくはアカウント登録してください。"]
         expect(response).to have_http_status(:unauthorized)
       end
