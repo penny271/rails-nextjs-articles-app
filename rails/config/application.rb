@@ -35,5 +35,7 @@ module Myapp
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    # * Rails アプリ全体の言語を日本語に設定します
+    config.i18n.default_locale = :ja
   end
 end

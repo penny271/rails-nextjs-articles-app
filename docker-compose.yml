@@ -1,5 +1,6 @@
 version: '3'
 services:
+  # docker registryからすでにあるイメージを流用している
   db:
     image: mysql:8.0.32
     environment:
@@ -11,6 +12,9 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+  # docker registryからすでにあるイメージを流用しているのではなく、
+  # ローカルの ./rails directory. のDockerfile  の設定で
+  # 新しくカスタムイメージを構築している
   rails:
     build:
       context: ./rails
