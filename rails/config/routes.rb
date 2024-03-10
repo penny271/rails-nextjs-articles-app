@@ -14,9 +14,9 @@ Rails.application.routes.draw do
       # サインインユーザーの情報を取得するアクションを実装
       # CurrentUsersControllerを実装
       namespace :current do
-        resource :user, only: [:show]
-        # resources :articles, only: [:create]
-        resources :articles, only: [:create, :update]
+        resource :user, only: [:show, :update]
+        # resources :articles, only: [:index, :create, :update]
+        resources :articles, only: [:index, :show, :create, :update]
       end
       # 記事の詳細を取得するアクション
       resources :articles, only: [:index, :show]
