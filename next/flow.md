@@ -19,7 +19,9 @@ https://mui.com/material-ui/react-button/
 ## SWR と axios をインストール SWRはRailsからデータを取得する（GETメソッドのリクエスト）/ axios: Railsに対して何らかのデータ変更を命じる（POST, PATHC, DELETEなどのメソッドのリクエスト）
 `npm install axios swr`
 
-## abc
+## Rails API との通信には必須のJSライブラリである camelcaseKeys をインストール
+### camelcase-keys は引数に与えた JSON のキー文字列のスネークケースをキャメルケースに変換する関数を提供するJSライブラリです。
+`npm install camelcase-keys`
 
 ## abc
 
