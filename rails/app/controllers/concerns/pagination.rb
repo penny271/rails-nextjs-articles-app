@@ -1,0 +1,13 @@
+# rails/app/controllers/concerns/pagination.rb
+
+# 現在のページ数・全体のページ数を取得
+module Pagination
+  extend ActiveSupport::Concern
+
+  def pagination(records)
+    {
+      current_page: records.current_page, # 現在のページ数
+      total_pages: records.total_pages, # 全体のページ数
+    }
+  end
+end

@@ -15,7 +15,11 @@ Rails.application.routes.draw do
       # CurrentUsersControllerを実装
       namespace :current do
         resource :user, only: [:show]
+        # resources :articles, only: [:create]
+        resources :articles, only: [:create, :update]
       end
+      # 記事の詳細を取得するアクション
+      resources :articles, only: [:index, :show]
     end
   end
 
