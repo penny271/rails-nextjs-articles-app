@@ -8,4 +8,7 @@ class User < ApplicationRecord
          #  :recoverable, :rememberable, :validatable
          :recoverable, :rememberable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User
+
+  # 親レコードである users 側が削除された場合に、子レコードである articles も一緒に削除する
+  has_many :articles, dependent: :destroy
 end

@@ -1,0 +1,8 @@
+# rails/config/locales/ja.yml
+
+ja:
+  activerecord:
+    attributes:
+      article:
+        title: タイトル
+        content: 本文

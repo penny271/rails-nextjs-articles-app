@@ -37,5 +37,7 @@ module Myapp
     config.api_only = true
     # * Rails アプリ全体の言語を日本語に設定します
     config.i18n.default_locale = :ja
+    # * メッセージを日本語化するためのファイルを読み込む
+    config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.yml").to_s]
   end
 end
