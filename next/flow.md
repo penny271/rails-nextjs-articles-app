@@ -23,7 +23,8 @@ https://mui.com/material-ui/react-button/
 ### camelcase-keys は引数に与えた JSON のキー文字列のスネークケースをキャメルケースに変換する関数を提供するJSライブラリです。
 `npm install camelcase-keys`
 
-## abc
+## markdownテキストをHTMLに解釈するライブラリとHTMLに zenn ライクなスタイルを付与できるライブラリをインストール
+`npm install marked zenn-content-css`
 
 ## abc
 

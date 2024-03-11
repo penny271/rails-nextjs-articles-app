@@ -15,6 +15,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { AppProps } from 'next/app';
 import * as React from 'react';
+// * 自作した reset cssを適用
+import '@/styles/destyle.css';
+import Header from '@/components/Header';
 
 import createEmotionCache from '@/styles/createEmotionCache';
 import theme from '@/styles/theme';
@@ -33,6 +36,7 @@ export default function MyApp(props: MyAppProps): JSX.Element {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
+        <Header />
         <Component {...pageProps} />
       </ThemeProvider>
     </CacheProvider>

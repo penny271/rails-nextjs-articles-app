@@ -8,7 +8,7 @@ type ArticleCardProps = {
   userName: string;
 };
 
-// 文字列が長すぎる場合に適切に短縮する
+// 文字列が長すぎる場合に適切に短縮する Currying
 const omit = (text: string) => (len: number) => (ellipsis: string) =>
   text.length >= len ? text.slice(0, len - ellipsis.length) + ellipsis : text;
 
