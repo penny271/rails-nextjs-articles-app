@@ -1,1 +1,0 @@
-# rails-next-zenn-clone
