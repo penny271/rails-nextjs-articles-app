@@ -4,8 +4,12 @@ import { AppBar, Box, Button, Container } from '@mui/material';
 // Imageコンポーネントをでは、public配下の画像ファイルを参照して<img>タグとして展開
 import Image from 'next/image';
 import Link from 'next/link';
+// * global stateを本コンポーネント内で取得及び更新できるようにする
+import { useUserState } from '@/hooks/useGlobalState';
 
 const Header = () => {
+  const [user] = useUserState();
+
   return (
     <AppBar
       position="static"
@@ -30,37 +34,45 @@ const Header = () => {
               {/* <Image src="/logo.png" width={153} height={60} alt="logo" /> */}
             </Link>
           </Box>
-          <Box>
-            <Link href="/sign_in">
-              <Button
-                color="primary"
-                variant="contained"
-                sx={{
-                  color: 'white',
-                  textTransform: 'none',
-                  fontSize: 16,
-                  borderRadius: 2,
-                  boxShadow: 'none',
-                }}
-              >
-                Sign in
-              </Button>
-            </Link>
-            <Button
-              color="primary"
-              variant="outlined"
-              sx={{
-                textTransform: 'none',
-                fontSize: 16,
-                borderRadius: 2,
-                boxShadow: 'none',
-                border: '1.5px solid #3EA8FF',
-                ml: 2,
-              }}
-            >
-              Sign Up
-            </Button>
-          </Box>
+          {/* //* サインインしているかどうかで表示を変更する */}
+          {user.isFetched && (
+            <>
+              {!user.isSignedIn && (
+                <Box>
+                  <Link href="/sign_in">
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      sx={{
+                        color: 'white',
+                        textTransform: 'none',
+                        fontSize: 16,
+                        borderRadius: 2,
+                        boxShadow: 'none',
+                      }}
+                    >
+                      Sign in
+                    </Button>
+                  </Link>
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    sx={{
+                      textTransform: 'none',
+                      fontSize: 16,
+                      borderRadius: 2,
+                      boxShadow: 'none',
+                      border: '1.5px solid #3EA8FF',
+                      ml: 2,
+                    }}
+                  >
+                    Sign Up
+                  </Button>
+                </Box>
+              )}
+              {user.isSignedIn && <Box>{user.name}</Box>}
+            </>
+          )}
         </Box>
       </Container>
     </AppBar>

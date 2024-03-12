@@ -17,6 +17,8 @@ import { AppProps } from 'next/app';
 import * as React from 'react';
 // * 自作した reset cssを適用
 import '@/styles/destyle.css';
+// * global stateのユーザー情報を取得
+import CurrentUserFetch from '@/components/CurrentUserFetch';
 import Header from '@/components/Header';
 
 import createEmotionCache from '@/styles/createEmotionCache';
@@ -36,6 +38,8 @@ export default function MyApp(props: MyAppProps): JSX.Element {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
+        {/* //* _app.tsx にあることから毎回 ユーザー情報を取得、確認できる */}
+        <CurrentUserFetch />
         <Header />
         <Component {...pageProps} />
       </ThemeProvider>

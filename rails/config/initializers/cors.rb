@@ -22,10 +22,10 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     origins Settings.front_domain
 
     resource "*",
-            headers: :any,
-            # * 認証情報（'access-token', 'uid','client'）を Next.js で取得できるようにする
-            # * Next.js側で サインイン機能を実装するために必要
-            expose: ['access-token', 'uid','client'],
-            methods: [:get, :post, :put, :patch, :delete, :options, :head]
+             headers: :any,
+             # * 認証情報（'access-token', 'uid','client'）を Next.js で取得できるようにする
+             # * Next.js側で サインイン機能を実装するために必要
+             expose: ["access-token", "uid", "client"],
+             methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 end

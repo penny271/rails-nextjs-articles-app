@@ -8,6 +8,8 @@ import { useRouter } from 'next/router';
 // ライブラリ 'react-hook-form'
 import { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+// * global stateを本コンポーネント内で取得及び更新できるようにする
+import { useUserState } from '@/hooks/useGlobalState';
 
 type SignInFormData = {
   email: string;
@@ -18,6 +20,7 @@ const SignIn: NextPage = () => {
   const router = useRouter();
   // * サインインするために送信ボタンを押したときの通信の状態を管理
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useUserState();
 
   // * ライブラリ 'react-hook-form' から下記の変数が自動生成される
   const { handleSubmit, control } = useForm<SignInFormData>({
@@ -55,6 +58,12 @@ const SignIn: NextPage = () => {
         localStorage.setItem('access-token', res.headers['access-token']);
         localStorage.setItem('client', res.headers['client']);
         localStorage.setItem('uid', res.headers['uid']);
+        // * サインイン時にglobal stateのユーザー情報を更新 => CurrentUserFetch.tsxが走り、
+        // * サインイン後の home画面に戻ったときに 右上の headerの表示が切り替わるようになる
+        setUser({
+          ...user,
+          isFetched: false,
+        });
         router.push('/');
       })
       .catch((e: AxiosError<{ error: string }>) => {
