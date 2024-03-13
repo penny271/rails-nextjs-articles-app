@@ -20,6 +20,8 @@ import '@/styles/destyle.css';
 // * global stateのユーザー情報を取得
 import CurrentUserFetch from '@/components/CurrentUserFetch';
 import Header from '@/components/Header';
+// * 通知バーの情報を取得
+import Snackbar from '@/components/Snackbar';
 
 import createEmotionCache from '@/styles/createEmotionCache';
 import theme from '@/styles/theme';
@@ -42,6 +44,7 @@ export default function MyApp(props: MyAppProps): JSX.Element {
         <CurrentUserFetch />
         <Header />
         <Component {...pageProps} />
+        <Snackbar />
       </ThemeProvider>
     </CacheProvider>
   );

@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 // * global stateを本コンポーネント内で取得及び更新できるようにする
-import { useUserState } from '@/hooks/useGlobalState';
+import { useUserState, useSnackbarState } from '@/hooks/useGlobalState';
 
 type SignInFormData = {
   email: string;
@@ -21,6 +21,7 @@ const SignIn: NextPage = () => {
   // * サインインするために送信ボタンを押したときの通信の状態を管理
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useUserState();
+  const [, setSnackbar] = useSnackbarState();
 
   // * ライブラリ 'react-hook-form' から下記の変数が自動生成される
   const { handleSubmit, control } = useForm<SignInFormData>({
@@ -58,16 +59,28 @@ const SignIn: NextPage = () => {
         localStorage.setItem('access-token', res.headers['access-token']);
         localStorage.setItem('client', res.headers['client']);
         localStorage.setItem('uid', res.headers['uid']);
-        // * サインイン時にglobal stateのユーザー情報を更新 => CurrentUserFetch.tsxが走り、
+        // * サインイン時にglobal stateのユーザー情報を更新(isFetched: false) => CurrentUserFetch.tsxが走り、
         // * サインイン後の home画面に戻ったときに 右上の headerの表示が切り替わるようになる
         setUser({
           ...user,
           isFetched: false,
         });
+        // * 通知バーの状態を更新する
+        setSnackbar({
+          message: 'サインインに成功しました',
+          severity: 'success',
+          pathname: '/',
+        });
         router.push('/');
       })
       .catch((e: AxiosError<{ error: string }>) => {
         console.log(e.message);
+        // * 通知バーの状態を更新する
+        setSnackbar({
+          message: '登録ユーザーが見つかりません',
+          severity: 'error',
+          pathname: '/sign_in',
+        });
         // データ通信がうまくいかなかった場合、再度ボタンを押せる状態に戻すようにしている
         setIsLoading(false); // * ローディング完了
       });
