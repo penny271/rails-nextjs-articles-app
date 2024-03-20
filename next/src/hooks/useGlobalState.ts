@@ -3,7 +3,7 @@
 
 import useSWR from 'swr';
 
-// ユーザーの状態をglobalで管理する
+// ユーザーの状態をglobalで管理する カスタムフック
 export const useUserState = () => {
   type userStateType = {
     id: number;
