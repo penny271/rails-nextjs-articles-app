@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-no-undef */
 // next/src/components/Header.tsx
-
 // Importing necessary icons from MUI
 import ArticleIcon from '@mui/icons-material/Article';
 import Logout from '@mui/icons-material/Logout';
@@ -20,6 +19,8 @@ import {
   ListItemIcon,
   Typography,
 } from '@mui/material';
+// eslint-disable-next-line import/named
+import axios, { AxiosResponse, AxiosError } from 'axios';
 
 // Imageコンポーネントをでは、public配下の画像ファイルを参照して<img>タグとして展開
 import Image from 'next/image';
@@ -30,18 +31,51 @@ import { useState } from 'react';
 import { useUserState } from '@/hooks/useGlobalState';
 
 const Header = () => {
-  const router = useRouter();
   const [user] = useUserState();
   // メニューの中身を表示させる位置を決定する
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   // メニューの開閉を制御
   const open = Boolean(anchorEl);
+  const router = useRouter();
+
+  console.log('router :>> ', router);
+  // router :>>  {pathname: '/current/articles/edit/[id]', route: '/current/articles/edit/[id]', query: {…}, asPath: '/current/articles/edit/32', components: {…},…}
+
+  // 記事編集ページでは、ヘッダーが表示されないようにしている
+  // ※current/articles/edit/[id]ページのbarがfixedなので実装しても見栄えは変わらない直が要素は消える
+  const hideHeaderPathnames = ['/current/articles/edit/[id]'];
+  if (hideHeaderPathnames.includes(router.pathname)) {
+    console.log('hideHeaderPathnames :>> ', hideHeaderPathnames);
+    console.log('router.pathname :>> ', router.pathname);
+    return <></>;
+  }
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  // 新しい記事を作成 => 記事編集ページに飛びそこで編集(新規作成)可能
+  // 新規作成画面、更新画面を同じパスで共通化し、シームレスな保存処理を実現している
+  const addNewArticle = () => {
+    const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles';
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'access-token': localStorage.getItem('access-token'),
+      client: localStorage.getItem('client'),
+      uid: localStorage.getItem('uid'),
+    };
+
+    axios({ method: 'POST', url: url, headers: headers })
+      .then((res: AxiosResponse) => {
+        router.push('/current/articles/edit/' + res.data.id);
+      })
+      .catch((e: AxiosError<{ error: string }>) => {
+        console.log(e.message);
+      });
   };
 
   return (
@@ -123,6 +157,7 @@ const Header = () => {
                         width: 100,
                         boxShadow: 'none',
                       }}
+                      onClick={addNewArticle}
                     >
                       Add new
                     </Button>

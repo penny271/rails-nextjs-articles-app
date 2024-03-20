@@ -5,8 +5,8 @@ import { Box, Container, TextField, Typography, Stack } from '@mui/material';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-// ライブラリ 'react-hook-form'
 import { useState } from 'react';
+// ライブラリ 'react-hook-form'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 // * global stateを本コンポーネント内で取得及び更新できるようにする
 import { useUserState, useSnackbarState } from '@/hooks/useGlobalState';
