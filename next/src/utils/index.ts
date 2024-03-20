@@ -6,7 +6,6 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 
 export const fetcher = (url: string) => {
   console.log('fetcher関数発動...');
-
   return (
     axios
       // .get(url)
@@ -24,7 +23,7 @@ export const fetcher = (url: string) => {
       .then((res: AxiosResponse) => res.data)
       .catch((err: AxiosError) => {
         console.log(err.message);
-        throw err;
+        throw err; // * throw err で useSWR()が error として取得することができる
       })
   );
 };

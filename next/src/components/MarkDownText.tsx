@@ -1,4 +1,4 @@
-// next/src/components/MarkDownText.tsx
+// next/src/components/MarkdownText.tsx
 
 import { Box } from '@mui/material';
 import { marked } from 'marked';
