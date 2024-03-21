@@ -60,7 +60,7 @@ const CurrentArticlesEdit: NextPage = () => {
 
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles/';
   const { id } = router.query;
-  // * useSWRの仕様で、第位置引数が null だった場合、
+  // * useSWRの仕様で、第1引数が null だった場合、
   // * data と error には undefinedを返す(dataのfetch自体行われない)
   const { data, error } = useSWR(
     user.isSignedIn && id ? url + id : null,
@@ -87,12 +87,15 @@ const CurrentArticlesEdit: NextPage = () => {
   console.log('article :>> ', article);
   // article :>>  {title: 'テストタイトル1-9', content: 'テスト本文1-9', status: '公開中'}
 
-  // watchは、フォーム入力された値を参照して出力するメソッド
-  // resetは、フォーム入力の値をdefaultValuesで指定したオブジェクトで再初期化するメソッド
+  // * watchは、フォーム入力された値を参照して出力するメソッド
+  // * resetは、フォーム入力の値をdefaultValuesで指定したオブジェクトで再初期化するメソッド
   const { handleSubmit, control, reset, watch } = useForm<ArticleFormData>({
     defaultValues: article,
   });
 
+  // * 初期レンダー時のarticleの値(連想配列で値が空白とfalse)を、
+  // * data取得時のrender時に articleの値を取得した dataの値を使用して
+  // * 初期化==上書き reset(article) している)
   useEffect(() => {
     if (data) {
       reset(article);
@@ -134,6 +137,7 @@ const CurrentArticlesEdit: NextPage = () => {
 
     const patchData = { ...data, status: status };
 
+    // * railsと通信して記事の内容を更新する
     axios({
       method: 'PATCH',
       url: patchUrl,

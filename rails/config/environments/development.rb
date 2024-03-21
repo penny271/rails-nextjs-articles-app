@@ -65,6 +65,10 @@ Rails.application.configure do
   # * 認証メール送信に関する設定
   config.action_mailer.default_options = { from: "no-replay@example.com" }
   config.action_mailer.default_url_options = { host: "localhost:3000" }
+  # * 開発環境でのメール配信にletter_opener_webを使用する。
+  # * Eメールが実際にインターネット経由で送信されるのではなく、開発中に閲覧できるようにブラウザで開かれるようにする。
+  # * 実際の電子メールの送信を避ける代わりに、開発者が電子メールの内容や書式を確認できるようにするため、開発では一般的な設定
+  # - http://localhost:3000/letter_opener にアクセスすると、認証メールが届いていることが確認できる
   config.action_mailer.delivery_method = :letter_opener_web
 
   # Raises error for missing translations.
