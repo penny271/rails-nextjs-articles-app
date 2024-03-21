@@ -104,6 +104,18 @@ const SignUp: NextPage = () => {
               severity: 'error',
               pathname: '/sign_up',
             });
+          } else if (
+            e.response &&
+            e.response.data.errors &&
+            e.response.data.errors?.full_messages?.includes(
+              'Eメールはすでに存在します',
+            )
+          ) {
+            setSnackbar({
+              message: 'Eメールはすでに存在します',
+              severity: 'error',
+              pathname: '/sign_up',
+            });
           } else {
             // Fallback error message
             setSnackbar({

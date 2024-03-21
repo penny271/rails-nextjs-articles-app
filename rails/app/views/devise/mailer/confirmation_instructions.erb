@@ -1,0 +1,13 @@
+<%# rails/app/views/devise/mailer/confirmation_instructions.erb %>
+
+<%# * 認証メールの「アカウントを有効化する」にセットするリンクを変更する %>
+
+<p><%= t(:welcome).capitalize + ' ' + @email %>!</p>
+
+<p><%= t '.confirm_link_msg' %> </p>
+
+<%# deviseがメールを送信するときに ユニークなトークン(文字列)= @token を生成する %>
+<%# * もともと railsにリ直接クエストを送信していたのを frontのhttp://localhost:8000/confirmationにアクセスさせ、ページコンポーネント<Confirmation />の中で、Railsに対して認証リクエストを送信するように変更する%>
+<%# ! 原則 Rails は Next.js からのリクエストに対してのみレスポンスを返すことを想定している %>
+<%# ! リダイレクトはあくまでページ遷移であり、フロントエンド側の事情なので、フロントエンド側の処理として完結させたいため %>
+<p><%= link_to t('.confirm_account_link'), "#{Settings.front_domain}/confirmation?confirmation_token=#{@token}", target: :_blank, rel: "noopener noreferrer" %></p>

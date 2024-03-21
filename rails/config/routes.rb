@@ -10,7 +10,10 @@ Rails.application.routes.draw do
       get "health_check", to: "health_check#index"
       # ターミナルでdeviseインストールと一緒に追加された User に対するルーティングを適切な定義（api/v1配下）に直す(移動した)
       mount_devise_token_auth_for "User", at: "auth"
-
+      # user情報を更新する - created_atに日時を入れる(サインアップ時)
+      namespace :user do
+        resource :confirmations, only: [:update]
+      end
       # サインインユーザーの情報を取得するアクションを実装
       # CurrentUsersControllerを実装
       namespace :current do
