@@ -5,6 +5,11 @@ name: Continuous Integration
 # ブランチへの push 時
 on:
   push:
+    # 一つ目はbranches-ignoreです。これは「push によってワークフローを動作させる条件を設定している際、一部のブランチについてのみはワークフロー動作の対象外にする」という趣旨の設定
+    branches-ignore:
+      - "main"
+  # 他のワークフローから呼び出された時に動作させる」という趣旨の設定で、これによってCDワークフロー.github/workflows/cd.ymlの方からこちらのワークフローを呼び出すことができるようになります。
+  workflow_call:
 
 # 当 workflow が行う処理
 jobs:
