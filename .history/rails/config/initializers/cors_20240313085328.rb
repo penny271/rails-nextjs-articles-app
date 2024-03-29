@@ -19,7 +19,6 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     # origins "http://localhost:8000"
     # * gem configで定義したドメイン使用
-    # - originsに設定された url(next.js) からの railsへのリクエストを許可する
     origins Settings.front_domain
 
     resource "*",

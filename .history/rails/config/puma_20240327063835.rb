@@ -1,5 +1,4 @@
-# 環境変数からRAILS_MAX_THREADSを取得し、設定されていない場合は
-# デフォルト値5を使用し、整数に変換してthreads_countに代入します。
+# 環境変数からRAILS_MAX_THREADSを取得し、設定されていない場合はデフォルト値5を使用し、整数に変換してthreads_countに代入します。
 threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }.to_i
 
 # Pumaの最小スレッド数と最大スレッド数をthreads_countで設定します。

@@ -1,0 +1,2 @@
+# gem config で使用可能 環境毎に定数を定義する
+front_domain: https://rails-next-zenn-clone-app.com

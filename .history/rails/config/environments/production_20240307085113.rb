@@ -71,25 +71,11 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger = ActiveSupport::Logger.new($stdout)
+    logger           = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
-    config.logger = ActiveSupport::TaggedLogging.new(logger)
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  # 認証メール送信に関する記述
-  config.action_mailer.default_options = { from: "no-reply@rails-next-article-markdown.net" }
-  config.action_mailer.default_url_options = { host: "https://rails-next-article-markdown.net" }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
-    domain: "gmail.com",
-    user_name: Rails.application.credentials.production.gmail.user_name,
-    password: Rails.application.credentials.production.gmail.password,
-    authentication: "plain",
-    enable_starttls_auto: true,
-  }
 end

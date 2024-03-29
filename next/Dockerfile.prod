@@ -1,0 +1,51 @@
+# next/Dockerfile.prod
+
+# --- Build Stage ---
+# * ビルドプロセス用のベースイメージとして node:19.4.0 を使用し、このステージを builder という名前で参照できるようにしています。
+FROM --platform=linux/x86_64 node:19.4.0 AS builder
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json before other files
+# Utilize Docker cache to save re-installing dependencies if unchanged
+COPY package.json package-lock.json ./
+
+# Install dependencies
+# npm ci を実行すると常に package-lock.json から依存関係をインストールします。
+# 既に node_modules フォルダの中身があっても一旦削除します。
+RUN npm ci
+
+# Copy all files
+COPY . .
+
+# Build the Next.js app
+# package.jsonより
+RUN npm run build
+
+# --- Run Stage ---
+# * 冒頭でのnodeイメージのダウンロードと作業ディレクトリの作成は、ビルドステージと共通です。ただし、本番環境でのパフォーマンスを最大化するため、nodeイメージとしてはより軽量なnode:19.4.0-alpineを採用しています。
+FROM node:19.4.0-alpine
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the build output from the previous stage
+# * ビルド成果物のコピー: COPY --from=builder コマンドを使用して、ビルドステージ(builder)で生成されたファイルを現在のステージにコピーします。
+COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/.env.production ./.env.production
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package-lock.json ./package-lock.json
+
+# Set the environment variable for Next.js
+ENV NODE_ENV production
+
+# Expose the port the app runs on
+# * 開発環境ではコンテナポートは3000番(EXPOSE 3000)でしたが、本番環境ではポート指定無しでアクセスできるようにしたいので、コンテナポートを80番(EXPOSE 80)としてます。
+EXPOSE 80
+
+# Command to run the application
+CMD ["npm", "run", "start"]
