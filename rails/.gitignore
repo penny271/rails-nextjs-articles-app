@@ -33,3 +33,5 @@ test.rb
 test.js
 test*.ts
 study*.*
+
+.history/*
